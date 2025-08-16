@@ -367,28 +367,17 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
         
         const fetchImageAsBase64 = async (url: string) => {
             try {
-                setConversionResult('Fetching image...');
-                const response = await fetch(url);
+                setConversionResult('Fetching image via proxy...');
+                const response = await fetch(`/api/proxy-image?url=${encodeURIComponent(url)}`);
+                const result = await response.json();
+
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch image: ${response.statusText}`);
+                    throw new Error(result.error || 'Failed to fetch image via proxy');
                 }
-                setConversionResult('Converting to Blob...');
-                const blob = await response.blob();
-                if (!blob.type.startsWith('image/')) {
-                  throw new Error(`Fetched file is not an image, but ${blob.type}`);
-                }
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    const base64String = reader.result as string;
-                    setFirebaseImage(base64String);
-                    setConversionResult(`Success! Base64: ${base64String.substring(0, 100)}...`);
-                    setIsFirebaseImageLoading(false);
-                };
-                reader.onerror = () => {
-                    throw new Error('Failed to read blob as Data URL.');
-                };
-                setConversionResult('Reading as Data URL...');
-                reader.readAsDataURL(blob);
+                
+                setFirebaseImage(result.dataUri);
+                setConversionResult(`Success! Base64: ${result.dataUri.substring(0, 100)}...`);
+
             } catch (error: any) {
                 console.error("Error converting image to Base64:", error);
                 const errorMessage = error.message || 'An unknown error occurred.';
@@ -396,8 +385,9 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                 toast({
                     variant: "destructive",
                     title: "Image Load Error",
-                    description: "Could not load the image from the provided URL.",
+                    description: `Could not load the image from the provided URL. ${errorMessage}`,
                 });
+            } finally {
                 setIsFirebaseImageLoading(false);
             }
         };
@@ -1242,5 +1232,3 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
     </div>
   );
 }
-
-    
