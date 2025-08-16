@@ -346,7 +346,6 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
   const [templateFile, setTemplateFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [fetchedMediaUrl, setFetchedMediaUrl] = useState<string | null>(null);
-  const [conversionResult, setConversionResult] = useState<string | null>(null);
   
   const finalBackgroundImage = backgroundImage || firebaseImage || '/default-background.png';
 
@@ -361,13 +360,11 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
         setIsFirebaseImageLoading(true);
         setFetchedMediaUrl(null);
         setFirebaseImage(null);
-        setConversionResult(null);
 
         const dbRef = ref(database, `Saywith/${id}`);
         
         const fetchImageAsBase64 = async (url: string) => {
             try {
-                setConversionResult('Fetching image via proxy...');
                 const response = await fetch(`/api/proxy-image?url=${encodeURIComponent(url)}`);
                 const result = await response.json();
 
@@ -376,12 +373,10 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                 }
                 
                 setFirebaseImage(result.dataUri);
-                setConversionResult(`Success! Base64: ${result.dataUri.substring(0, 100)}...`);
 
             } catch (error: any) {
                 console.error("Error converting image to Base64:", error);
                 const errorMessage = error.message || 'An unknown error occurred.';
-                setConversionResult(`Error: ${errorMessage}`);
                 toast({
                     variant: "destructive",
                     title: "Image Load Error",
@@ -400,18 +395,15 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                     fetchImageAsBase64(data.mediaUrl);
                 } else {
                     setIsFirebaseImageLoading(false);
-                    setConversionResult('No mediaUrl found in this record.');
                 }
             } else {
                 setFetchedMediaUrl('No data found at this path.');
-                setConversionResult('No data found at this path.');
                 setIsFirebaseImageLoading(false);
             }
         }).catch((error) => {
             console.error("Error fetching from Firebase:", error);
             const errorMessage = error.message || 'An unknown error occurred.';
             setFetchedMediaUrl(`Firebase Error: ${errorMessage}`);
-            setConversionResult(`Firebase Error: ${errorMessage}`);
             toast({
                 variant: "destructive",
                 title: "Firebase Error",
@@ -1182,7 +1174,6 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                         <Label>Debug Information</Label>
                         <div className="space-y-1 text-xs text-muted-foreground break-all bg-muted p-2 rounded-md font-mono">
                             <p><b>Media URL:</b> {fetchedMediaUrl || 'N/A'}</p>
-                            <p><b>Conversion:</b> {conversionResult || 'N/A'}</p>
                         </div>
                     </div>
                  )}
