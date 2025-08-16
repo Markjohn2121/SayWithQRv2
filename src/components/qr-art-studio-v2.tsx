@@ -355,9 +355,9 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
   }, [qrId]);
 
   useEffect(() => {
-    if (qrId) {
+    if (decodedId) {
         setIsFirebaseImageLoading(true);
-        const dbRef = ref(database, `Saywith/${qrId}/`);
+        const dbRef = ref(database, `Saywith/${decodedId}`);
         
         const fetchImageAsBase64 = async (url: string) => {
             try {
