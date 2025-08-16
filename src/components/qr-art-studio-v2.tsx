@@ -344,6 +344,7 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const [templateFile, setTemplateFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  
   const finalBackgroundImage = backgroundImage || firebaseImage || '/default-background.png';
 
   useEffect(() => {
@@ -358,9 +359,8 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
       get(dbRef).then((snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
-          const mediaUrl = data.mediaUrl;
-          if (mediaUrl && typeof mediaUrl === 'string' && data.type === 'image') {
-            setFirebaseImage(mediaUrl);
+          if (data && data.mediaUrl && data.type === 'image') {
+            setFirebaseImage(data.mediaUrl);
           }
         }
       }).catch((error) => {
@@ -1098,24 +1098,24 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
                 />
               </div>
               <div className="space-y-2">
-                 <Label>Background Image (Optional)</Label>
-                  <div className="flex items-center gap-2">
-                       <Input id="bg-image-upload" type="file" accept="image/png, image/jpeg" onChange={handleBackgroundImageUpload} className="hidden"/>
+                 <Label>Background Image</Label>
+                 <div className="grid grid-cols-2 gap-4">
+                   <div className="space-y-2">
+                      <p className="text-sm text-muted-foreground">Upload an image to override the one from Firebase or the default.</p>
+                      <Input id="bg-image-upload" type="file" accept="image/png, image/jpeg" onChange={handleBackgroundImageUpload} className="hidden"/>
                        <Button asChild variant="outline">
                           <label htmlFor="bg-image-upload" className="cursor-pointer">
                               <ImageIcon className="mr-2" /> Upload Image
                           </label>
                        </Button>
-                       {backgroundImage && 
-                          <div className="flex items-center gap-2">
-                              <img src={backgroundImage} alt="background preview" className="w-10 h-10 rounded-sm bg-white p-1 object-cover"/>
-                              <Button variant="ghost" size="icon" onClick={() => setBackgroundImage(null)}>
-                                  <X className="w-4 h-4"/>
-                              </Button>
-                          </div>
-                       }
-                  </div>
-                  <p className="text-sm text-muted-foreground">Used by designs where "Use Image Background" is enabled.</p>
+                   </div>
+                    <div className="space-y-2">
+                        <p className="text-sm text-muted-foreground">Currently using:</p>
+                        <div className="w-full aspect-video rounded-md border flex items-center justify-center bg-muted/50 overflow-hidden">
+                            <img src={finalBackgroundImage} alt="Current background" className="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                 </div>
               </div>
             </CardContent>
             <CardFooter>
@@ -1163,6 +1163,3 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
   );
 }
 
-    
-
-    
