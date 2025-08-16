@@ -330,7 +330,7 @@ const DesignPreview = ({ design, backgroundImage }: { design: Design, background
 };
 
 
-export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, decodedId?: string }) {
+export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string }) {
   const [content, setContent] = useState('https://firebase.google.com/');
   const [designs, setDesigns] = useState<Design[]>([]);
   const [svgTemplates, setSvgTemplates] = useState<string[]>([]);
@@ -355,9 +355,9 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
   }, [qrId]);
 
   useEffect(() => {
-    if (decodedId) {
+    if (id) {
         setIsFirebaseImageLoading(true);
-        const dbRef = ref(database, `Saywith/${decodedId}`);
+        const dbRef = ref(database, `Saywith/${id}`);
         
         const fetchImageAsBase64 = async (url: string) => {
             try {
@@ -406,7 +406,7 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
     } else {
         setIsFirebaseImageLoading(false);
     }
-  }, [decodedId, toast]);
+  }, [id, toast]);
 
   const fetchTemplates = React.useCallback(() => {
     fetch('/api/templates')
@@ -1200,5 +1200,3 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
     </div>
   );
 }
-
-    

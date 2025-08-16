@@ -6,7 +6,7 @@ export default function QrPage({ params }: { params: { id: string } }) {
 
   return (
     <main className="container mx-auto p-4 md:p-8">
-      <QrArtStudioV2 qrId={fullUrl} decodedId={params.id} />
+      <QrArtStudioV2 qrId={fullUrl} id={params.id} />
     </main>
   );
 }
