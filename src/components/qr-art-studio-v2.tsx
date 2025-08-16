@@ -322,7 +322,7 @@ const DesignPreview = ({ design, backgroundImage }: { design: Design, background
 };
 
 
-export default function QrArtStudioV2() {
+export default function QrArtStudioV2({ qrId }: { qrId?: string }) {
   const [content, setContent] = useState('https://firebase.google.com/');
   const [designs, setDesigns] = useState<Design[]>([]);
   const [svgTemplates, setSvgTemplates] = useState<string[]>([]);
@@ -335,6 +335,12 @@ export default function QrArtStudioV2() {
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const [templateFile, setTemplateFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+
+  useEffect(() => {
+    if (qrId) {
+      setContent(qrId);
+    }
+  }, [qrId]);
 
   const fetchTemplates = React.useCallback(() => {
     fetch('/api/templates')
