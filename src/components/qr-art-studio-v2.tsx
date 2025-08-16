@@ -359,12 +359,8 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
         if (snapshot.exists()) {
           const data = snapshot.val();
           const mediaUrl = data.mediaUrl;
-          if (mediaUrl && typeof mediaUrl === 'string') {
-            const isImageByExtension = /\.(jpg|jpeg|png|gif)$/i.test(mediaUrl);
-            const isImageByType = data.type === 'image';
-            if (isImageByExtension || isImageByType) {
-              setFirebaseImage(mediaUrl);
-            }
+          if (mediaUrl && typeof mediaUrl === 'string' && data.type === 'image') {
+            setFirebaseImage(mediaUrl);
           }
         }
       }).catch((error) => {
@@ -1166,5 +1162,7 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
     </div>
   );
 }
+
+    
 
     
