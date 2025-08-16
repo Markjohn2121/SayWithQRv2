@@ -322,7 +322,7 @@ const DesignPreview = ({ design, backgroundImage }: { design: Design, background
 };
 
 
-export default function QrArtStudio() {
+export default function QrArtStudioV2() {
   const [content, setContent] = useState('https://firebase.google.com/');
   const [designs, setDesigns] = useState<Design[]>([]);
   const [svgTemplates, setSvgTemplates] = useState<string[]>([]);
