@@ -345,6 +345,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const [templateFile, setTemplateFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [fetchedMediaUrl, setFetchedMediaUrl] = useState<string | null>(null);
   
   const finalBackgroundImage = backgroundImage || firebaseImage || '/default-background.png';
 
@@ -357,6 +358,9 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
   useEffect(() => {
     if (id) {
         setIsFirebaseImageLoading(true);
+        setFetchedMediaUrl(null);
+        setFirebaseImage(null);
+
         const dbRef = ref(database, `Saywith/${id}`);
         
         const fetchImageAsBase64 = async (url: string) => {
@@ -386,12 +390,14 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
         get(dbRef).then((snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
+                setFetchedMediaUrl(data.mediaUrl || 'No mediaUrl found in database.');
                 if (data && data.mediaUrl && data.type === 'image') {
                     fetchImageAsBase64(data.mediaUrl);
                 } else {
                     setIsFirebaseImageLoading(false);
                 }
             } else {
+                setFetchedMediaUrl('No data found at this path.');
                 setIsFirebaseImageLoading(false);
             }
         }).catch((error) => {
@@ -1154,6 +1160,12 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                         </div>
                     </div>
                  </div>
+                 {fetchedMediaUrl && (
+                    <div className="space-y-1 pt-2">
+                        <Label>Fetched Media URL</Label>
+                        <p className="text-xs text-muted-foreground break-all bg-muted p-2 rounded-md">{fetchedMediaUrl}</p>
+                    </div>
+                 )}
               </div>
             </CardContent>
             <CardFooter>
