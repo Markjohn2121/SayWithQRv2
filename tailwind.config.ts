@@ -98,12 +98,15 @@ export default {
         'pulse-square': {
           '0%': {
             opacity: '1',
+            transform: 'scale(0.95)',
           },
-          '50%': {
+          '70%': {
             opacity: '0.5',
+            transform: 'scale(1)',
           },
           '100%': {
             opacity: '1',
+            transform: 'scale(0.95)',
           },
         },
       },
@@ -116,3 +119,5 @@ export default {
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
+
+    

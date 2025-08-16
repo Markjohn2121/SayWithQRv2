@@ -938,7 +938,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                                             <SelectContent>
                                                 <SelectItem value="none">None</SelectItem>
                                                 <SelectItem value="light">Light</SelectItem>
-                                                <SelectItem value="black-and-white">Black &amp; White</SelectItem>
+                                                <SelectItem value="black-and-white">Black & White</SelectItem>
                                                 <SelectItem value="sketchy">Sketchy</SelectItem>
                                             </SelectContent>
                                         </Select>
@@ -1090,12 +1090,16 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
     </div>
   );
 
+  const showLoadingDialog = isFirebaseImageLoading && !backgroundImage;
+
   return (
     <div className="space-y-8">
-      <Dialog open={isLoading}>
+      <Dialog open={showLoadingDialog || isLoading}>
         <DialogContent className="max-w-sm text-center" hideCloseButton>
             <DialogHeader>
-              <DialogTitle className="font-headline text-2xl">Generating QR Codes</DialogTitle>
+              <DialogTitle className="font-headline text-2xl">
+                {isLoading ? 'Generating QR Codes' : 'Preparing Your Experience'}
+              </DialogTitle>
             </DialogHeader>
             <div className="flex flex-col items-center gap-4 py-8">
               <div className="flex justify-center items-center space-x-2">
@@ -1103,10 +1107,13 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                   <div className="w-4 h-4 rounded-full bg-primary animate-pulse-square [animation-delay:-0.15s]"></div>
                   <div className="w-4 h-4 rounded-full bg-primary animate-pulse-square"></div>
               </div>
-              <p className="text-muted-foreground">Please wait while we create your designs...</p>
+              <p className="text-muted-foreground">
+                {isLoading ? 'Please wait while we create your designs...' : 'Loading background media...'}
+              </p>
             </div>
         </DialogContent>
       </Dialog>
+
       <header className="text-center">
         <h1 className="text-4xl md:text-6xl font-headline font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
           SayWith
@@ -1152,7 +1159,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                     <div className="space-y-2">
                         <p className="text-sm text-muted-foreground">Currently using:</p>
                         <div className="w-full aspect-video rounded-md border flex items-center justify-center bg-muted/50 overflow-hidden">
-                           {isFirebaseImageLoading ? (
+                           {isFirebaseImageLoading && !backgroundImage ? (
                                <Skeleton className="w-full h-full" />
                            ) : (
                                <img src={finalBackgroundImage} alt="Current background" className="w-full h-full object-cover" />
@@ -1212,3 +1219,5 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
     </div>
   );
 }
+
+    
