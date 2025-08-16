@@ -346,6 +346,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
   const [templateFile, setTemplateFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [fetchedMediaUrl, setFetchedMediaUrl] = useState<string | null>(null);
+  const [conversionResult, setConversionResult] = useState<string | null>(null);
   
   const finalBackgroundImage = backgroundImage || firebaseImage || '/default-background.png';
 
@@ -360,24 +361,35 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
         setIsFirebaseImageLoading(true);
         setFetchedMediaUrl(null);
         setFirebaseImage(null);
+        setConversionResult(null);
 
         const dbRef = ref(database, `Saywith/${id}`);
         
         const fetchImageAsBase64 = async (url: string) => {
             try {
+                setConversionResult('Fetching image...');
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error(`Failed to fetch image: ${response.statusText}`);
                 }
+                setConversionResult('Converting to Blob...');
                 const blob = await response.blob();
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                    setFirebaseImage(reader.result as string);
+                    const base64String = reader.result as string;
+                    setFirebaseImage(base64String);
+                    setConversionResult(`Success! Base64: ${base64String.substring(0, 100)}...`);
                     setIsFirebaseImageLoading(false);
                 };
+                reader.onerror = () => {
+                    throw new Error('Failed to read blob as Data URL.');
+                };
+                setConversionResult('Reading as Data URL...');
                 reader.readAsDataURL(blob);
-            } catch (error) {
+            } catch (error: any) {
                 console.error("Error converting image to Base64:", error);
+                const errorMessage = error.message || 'An unknown error occurred.';
+                setConversionResult(`Error: ${errorMessage}`);
                 toast({
                     variant: "destructive",
                     title: "Image Load Error",
@@ -395,13 +407,20 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                     fetchImageAsBase64(data.mediaUrl);
                 } else {
                     setIsFirebaseImageLoading(false);
+                    if (data && data.mediaUrl) {
+                        setConversionResult(`Skipped: Media type is '${data.type}', not 'image'.`);
+                    }
                 }
             } else {
                 setFetchedMediaUrl('No data found at this path.');
+                setConversionResult('No data found at this path.');
                 setIsFirebaseImageLoading(false);
             }
         }).catch((error) => {
             console.error("Error fetching from Firebase:", error);
+            const errorMessage = error.message || 'An unknown error occurred.';
+            setFetchedMediaUrl(`Firebase Error: ${errorMessage}`);
+            setConversionResult(`Firebase Error: ${errorMessage}`);
             toast({
                 variant: "destructive",
                 title: "Firebase Error",
@@ -1167,10 +1186,13 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                         </div>
                     </div>
                  </div>
-                 {fetchedMediaUrl && (
-                    <div className="space-y-1 pt-2">
-                        <Label>Fetched Media URL</Label>
-                        <p className="text-xs text-muted-foreground break-all bg-muted p-2 rounded-md">{fetchedMediaUrl}</p>
+                 {id && (
+                    <div className="space-y-2 pt-2">
+                        <Label>Debug Information</Label>
+                        <div className="space-y-1 text-xs text-muted-foreground break-all bg-muted p-2 rounded-md font-mono">
+                            <p><b>Media URL:</b> {fetchedMediaUrl || 'N/A'}</p>
+                            <p><b>Conversion:</b> {conversionResult || 'N/A'}</p>
+                        </div>
                     </div>
                  )}
               </div>
@@ -1219,5 +1241,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
     </div>
   );
 }
+
+    
 
     
