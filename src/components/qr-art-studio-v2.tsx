@@ -20,8 +20,15 @@ import { Switch } from './ui/switch';
 import { Textarea } from './ui/textarea';
 import { Slider } from './ui/slider';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, get } from 'firebase/database';
+import { firebaseConfig } from '@/lib/firebase';
 
 const QR_IMG_SIZE = 512;
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 const drawCustomQr = (qrData: QRCode.QRCode | null, design: Design, bgImage: string | null, size: number): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -45,6 +52,7 @@ const drawCustomQr = (qrData: QRCode.QRCode | null, design: Design, bgImage: str
 
           if (design.useImage && bgImage) {
             const img = new Image();
+            img.crossOrigin = 'Anonymous'; // Handle CORS for images from other domains
             img.onload = () => {
               const imgAspectRatio = img.width / img.height;
               const canvasAspectRatio = canvasSize / canvasSize;
@@ -322,7 +330,7 @@ const DesignPreview = ({ design, backgroundImage }: { design: Design, background
 };
 
 
-export default function QrArtStudioV2({ qrId }: { qrId?: string }) {
+export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, decodedId?: string }) {
   const [content, setContent] = useState('https://firebase.google.com/');
   const [designs, setDesigns] = useState<Design[]>([]);
   const [svgTemplates, setSvgTemplates] = useState<string[]>([]);
@@ -331,16 +339,43 @@ export default function QrArtStudioV2({ qrId }: { qrId?: string }) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+  const [firebaseImage, setFirebaseImage] = useState<string | null>(null);
   const { toast } = useToast();
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const [templateFile, setTemplateFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const finalBackgroundImage = backgroundImage || firebaseImage || '/default-background.png';
 
   useEffect(() => {
     if (qrId) {
       setContent(qrId);
     }
   }, [qrId]);
+
+  useEffect(() => {
+    if (decodedId) {
+      const dbRef = ref(database, `Saywith/${decodedId}`);
+      get(dbRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          const mediaUrl = data.mediaUrl;
+          if (mediaUrl && typeof mediaUrl === 'string') {
+            const isImage = /\.(jpg|jpeg|png|gif)$/i.test(mediaUrl);
+            if (isImage) {
+              setFirebaseImage(mediaUrl);
+            }
+          }
+        }
+      }).catch((error) => {
+        console.error("Error fetching from Firebase:", error);
+        toast({
+          variant: "destructive",
+          title: "Firebase Error",
+          description: "Could not fetch media URL.",
+        });
+      });
+    }
+  }, [decodedId, toast]);
 
   const fetchTemplates = React.useCallback(() => {
     fetch('/api/templates')
@@ -473,7 +508,7 @@ export default function QrArtStudioV2({ qrId }: { qrId?: string }) {
       for (const design of designs) {
         let qrCodeDataUrl: string;
         
-        qrCodeDataUrl = await drawCustomQr(qrData, design, design.useImage ? backgroundImage : null, QR_IMG_SIZE);
+        qrCodeDataUrl = await drawCustomQr(qrData, design, design.useImage ? finalBackgroundImage : null, QR_IMG_SIZE);
 
         if (!design.template) continue;
 
@@ -941,7 +976,7 @@ export default function QrArtStudioV2({ qrId }: { qrId?: string }) {
                         
                         <div className="flex flex-col gap-4">
                             <h4 className="font-semibold text-lg text-center">Live Preview</h4>
-                            <DesignPreview design={design} backgroundImage={backgroundImage} />
+                            <DesignPreview design={design} backgroundImage={finalBackgroundImage} />
                             <Button variant="destructive" size="sm" onClick={() => removeDesign(design.id)} className="w-full"><Trash2 className="mr-2"/> Remove Design</Button>
                         </div>
                     </div>
