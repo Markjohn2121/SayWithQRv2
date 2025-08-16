@@ -340,6 +340,7 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
   const [isSaving, setIsSaving] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
   const [firebaseImage, setFirebaseImage] = useState<string | null>(null);
+  const [isFirebaseImageLoading, setIsFirebaseImageLoading] = useState(true);
   const { toast } = useToast();
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const [templateFile, setTemplateFile] = useState<File | null>(null);
@@ -355,6 +356,7 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
 
   useEffect(() => {
     if (decodedId) {
+        setIsFirebaseImageLoading(true);
         const dbRef = ref(database, `Saywith/${decodedId}`);
         
         const fetchImageAsBase64 = async (url: string) => {
@@ -367,6 +369,7 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     setFirebaseImage(reader.result as string);
+                    setIsFirebaseImageLoading(false);
                 };
                 reader.readAsDataURL(blob);
             } catch (error) {
@@ -376,6 +379,7 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
                     title: "Image Load Error",
                     description: "Could not load the image from the provided URL.",
                 });
+                setIsFirebaseImageLoading(false);
             }
         };
 
@@ -384,7 +388,11 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
                 const data = snapshot.val();
                 if (data && data.mediaUrl && data.type === 'image') {
                     fetchImageAsBase64(data.mediaUrl);
+                } else {
+                    setIsFirebaseImageLoading(false);
                 }
+            } else {
+                setIsFirebaseImageLoading(false);
             }
         }).catch((error) => {
             console.error("Error fetching from Firebase:", error);
@@ -393,7 +401,10 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
                 title: "Firebase Error",
                 description: "Could not fetch media URL.",
             });
+            setIsFirebaseImageLoading(false);
         });
+    } else {
+        setIsFirebaseImageLoading(false);
     }
   }, [decodedId, toast]);
 
@@ -921,7 +932,7 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
                                             <SelectContent>
                                                 <SelectItem value="none">None</SelectItem>
                                                 <SelectItem value="light">Light</SelectItem>
-                                                <SelectItem value="black-and-white">Black & White</SelectItem>
+                                                <SelectItem value="black-and-white">Black &amp; White</SelectItem>
                                                 <SelectItem value="sketchy">Sketchy</SelectItem>
                                             </SelectContent>
                                         </Select>
@@ -1135,7 +1146,11 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
                     <div className="space-y-2">
                         <p className="text-sm text-muted-foreground">Currently using:</p>
                         <div className="w-full aspect-video rounded-md border flex items-center justify-center bg-muted/50 overflow-hidden">
-                            <img src={finalBackgroundImage} alt="Current background" className="w-full h-full object-cover" />
+                           {isFirebaseImageLoading ? (
+                               <Skeleton className="w-full h-full" />
+                           ) : (
+                               <img src={finalBackgroundImage} alt="Current background" className="w-full h-full object-cover" />
+                           )}
                         </div>
                     </div>
                  </div>
@@ -1185,7 +1200,5 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
     </div>
   );
 }
-
-
 
     
