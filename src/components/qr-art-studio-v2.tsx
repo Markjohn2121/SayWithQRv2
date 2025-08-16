@@ -374,6 +374,9 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                 }
                 setConversionResult('Converting to Blob...');
                 const blob = await response.blob();
+                if (!blob.type.startsWith('image/')) {
+                  throw new Error(`Fetched file is not an image, but ${blob.type}`);
+                }
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     const base64String = reader.result as string;
@@ -403,13 +406,11 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 setFetchedMediaUrl(data.mediaUrl || 'No mediaUrl found in database.');
-                if (data && data.mediaUrl && data.type === 'image') {
+                if (data && data.mediaUrl) {
                     fetchImageAsBase64(data.mediaUrl);
                 } else {
                     setIsFirebaseImageLoading(false);
-                    if (data && data.mediaUrl) {
-                        setConversionResult(`Skipped: Media type is '${data.type}', not 'image'.`);
-                    }
+                    setConversionResult('No mediaUrl found in this record.');
                 }
             } else {
                 setFetchedMediaUrl('No data found at this path.');
@@ -1241,7 +1242,5 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
     </div>
   );
 }
-
-    
 
     
