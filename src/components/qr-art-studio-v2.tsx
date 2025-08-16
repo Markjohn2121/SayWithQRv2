@@ -355,22 +355,45 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
 
   useEffect(() => {
     if (decodedId) {
-      const dbRef = ref(database, `Saywith/${decodedId}`);
-      get(dbRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          const data = snapshot.val();
-          if (data && data.mediaUrl && data.type === 'image') {
-            setFirebaseImage(data.mediaUrl);
-          }
-        }
-      }).catch((error) => {
-        console.error("Error fetching from Firebase:", error);
-        toast({
-          variant: "destructive",
-          title: "Firebase Error",
-          description: "Could not fetch media URL.",
+        const dbRef = ref(database, `Saywith/${decodedId}`);
+        
+        const fetchImageAsBase64 = async (url: string) => {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch image: ${response.statusText}`);
+                }
+                const blob = await response.blob();
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setFirebaseImage(reader.result as string);
+                };
+                reader.readAsDataURL(blob);
+            } catch (error) {
+                console.error("Error converting image to Base64:", error);
+                toast({
+                    variant: "destructive",
+                    title: "Image Load Error",
+                    description: "Could not load the image from the provided URL.",
+                });
+            }
+        };
+
+        get(dbRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                if (data && data.mediaUrl && data.type === 'image') {
+                    fetchImageAsBase64(data.mediaUrl);
+                }
+            }
+        }).catch((error) => {
+            console.error("Error fetching from Firebase:", error);
+            toast({
+                variant: "destructive",
+                title: "Firebase Error",
+                description: "Could not fetch media URL.",
+            });
         });
-      });
     }
   }, [decodedId, toast]);
 
@@ -1163,3 +1186,6 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
   );
 }
 
+
+
+    
