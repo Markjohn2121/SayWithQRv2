@@ -360,8 +360,9 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
           const data = snapshot.val();
           const mediaUrl = data.mediaUrl;
           if (mediaUrl && typeof mediaUrl === 'string') {
-            const isImage = /\.(jpg|jpeg|png|gif)$/i.test(mediaUrl);
-            if (isImage) {
+            const isImageByExtension = /\.(jpg|jpeg|png|gif)$/i.test(mediaUrl);
+            const isImageByType = data.type === 'image';
+            if (isImageByExtension || isImageByType) {
               setFirebaseImage(mediaUrl);
             }
           }
@@ -1165,3 +1166,5 @@ export default function QrArtStudioV2({ qrId, decodedId }: { qrId?: string, deco
     </div>
   );
 }
+
+    
