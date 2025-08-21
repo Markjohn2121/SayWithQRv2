@@ -25,6 +25,7 @@ import { getDatabase, ref, get } from 'firebase/database';
 import { firebaseConfig } from '@/lib/firebase';
 
 const QR_IMG_SIZE = 512;
+const PNG_EXPORT_SIZE = 1024;
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -390,10 +391,11 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
         get(dbRef).then((snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
-                setFetchedMediaUrl(data.mediaUrl || 'No mediaUrl found in database.');
                 if (data && data.mediaUrl) {
+                    setFetchedMediaUrl(data.mediaUrl);
                     fetchImageAsBase64(data.mediaUrl);
                 } else {
+                    setFetchedMediaUrl('No mediaUrl found in database.');
                     setIsFirebaseImageLoading(false);
                 }
             } else {
@@ -613,28 +615,62 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
     }
   };
 
+  const svgToPng = (svgDataUrl: string, width: number, height: number): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                return reject(new Error('Could not get canvas context'));
+            }
+            ctx.drawImage(img, 0, 0, width, height);
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    resolve(blob);
+                } else {
+                    reject(new Error('Canvas to Blob conversion failed'));
+                }
+            }, 'image/png');
+        };
+        img.onerror = (err) => {
+            console.error("SVG to PNG conversion error:", err);
+            reject(new Error('Failed to load SVG image for conversion. Check browser console for details.'));
+        };
+        img.src = svgDataUrl;
+    });
+  };
+
   const handleDownloadAll = async () => {
     if (generatedQrs.length === 0) {
       toast({ variant: 'destructive', title: 'Nothing to download' });
       return;
     }
     setIsDownloading(true);
+    toast({ title: "Preparing Download", description: "Your PNG files are being generated..." });
     const zip = new JSZip();
 
-    for (let i = 0; i < generatedQrs.length; i++) {
-        const qr = generatedQrs[i];
-        const design = designs.find(d => d.id === qr.designId);
-        const designName = design ? design.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() : `design_${i + 1}`;
-        
-        const response = await fetch(qr.svg);
-        const blob = await response.blob();
-        zip.file(`${designName}.svg`, blob);
-    }
+    try {
+      for (let i = 0; i < generatedQrs.length; i++) {
+          const qr = generatedQrs[i];
+          const design = designs.find(d => d.id === qr.designId);
+          const designName = design ? design.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() : `design_${i + 1}`;
+          
+          const blob = await svgToPng(qr.svg, PNG_EXPORT_SIZE, PNG_EXPORT_SIZE);
+          zip.file(`${designName}.png`, blob);
+      }
 
-    zip.generateAsync({ type: 'blob' }).then((content) => {
-      saveAs(content, 'qr-art-studio-designs.zip');
-    });
-    setIsDownloading(false);
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+      saveAs(zipBlob, 'qr-art-studio-designs.zip');
+      toast({ variant: "success", title: "Download Ready!", description: "Your zip file has been downloaded." });
+
+    } catch (error: any) {
+        toast({ variant: "destructive", title: "Download Failed", description: error.message });
+    } finally {
+        setIsDownloading(false);
+    }
   };
   
   const addDesign = (isImageDesign: boolean) => {
@@ -940,7 +976,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                                             <SelectContent>
                                                 <SelectItem value="none">None</SelectItem>
                                                 <SelectItem value="light">Light</SelectItem>
-                                                <SelectItem value="black-and-white">Black & White</SelectItem>
+                                                <SelectItem value="black-and-white">Black &amp; White</SelectItem>
                                                 <SelectItem value="sketchy">Sketchy</SelectItem>
                                             </SelectContent>
                                         </Select>
@@ -1204,7 +1240,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                 <h2 className="text-3xl font-headline font-bold">Preview</h2>
                 <Button onClick={handleDownloadAll} disabled={isDownloading || generatedQrs.length === 0}>
                     {isDownloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2" />}
-                    Download All (.zip)
+                    Download All (.png)
                 </Button>
             </div>
             <div ref={previewContainerRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -1223,3 +1259,5 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
     </div>
   );
 }
+
+    
