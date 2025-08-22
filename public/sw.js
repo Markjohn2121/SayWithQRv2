@@ -2,7 +2,6 @@ const CACHE_NAME = 'qr-art-studio-cache-v1';
 const urlsToCache = [
   '/',
   '/manifest.json',
-  '/designs.json',
   '/templates/template1.svg',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png'
