@@ -115,7 +115,7 @@
     "eyeShape": "frame",
     "eyeStyle": "square",
     "eyeRadius": 8,
-    "padding": 64,
+    "padding": 80,
     "canvasShape": "square",
     "text": "Your Text Here",
     "useImage": false,
