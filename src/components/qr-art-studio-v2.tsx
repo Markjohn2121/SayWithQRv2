@@ -333,6 +333,8 @@ const DesignPreview = ({ design, backgroundImage }: { design: Design, background
 
 export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string }) {
   const [content, setContent] = useState('https://firebase.google.com/');
+  
+  const [qrtext, setqrtext] = useState(null);
   const [designs, setDesigns] = useState<Design[]>([]);
   const [svgTemplates, setSvgTemplates] = useState<string[]>([]);
   const [generatedQrs, setGeneratedQrs] = useState<GeneratedQr[]>([]);
@@ -392,7 +394,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 if (data && data.mediaUrl) {
-                    setFetchedMediaUrl(data.mediaUrl);
+                  setqrtext(data.name); setFetchedMediaUrl(data.mediaUrl);
                     fetchImageAsBase64(data.mediaUrl);
                 } else {
                     setFetchedMediaUrl('No mediaUrl found in database.');
@@ -574,10 +576,10 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
         }
 
 
-        if (design.text) {
-           svgText = svgText.replace(/(<text[^>]*>)\s*TEXT\s*(<\/text>)/g, `$1${design.text}$2`);
+        if (qrtext || design.text) {
+           svgText = svgText.replace(/(<text[^>]*>)\s*TEXT\s*(<\/text>)/g, `$1${qrtext ? qrtext : design.text}$2`);
            if (design.foregroundColor) {
-             svgText = svgText.replace(/(<text[^>]*fill=")[^"]*(")/g, `$1${design.foregroundColor}$2`);
+           //  svgText = svgText.replace(/(<text[^>]*fill=")[^"]*(")/g, `$1${design.foregroundColor}$2`);
            }
         }
 
