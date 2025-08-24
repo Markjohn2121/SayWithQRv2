@@ -804,7 +804,7 @@ export default function QrArtStudio() {
                                     <Slider
                                     value={[design.padding]}
                                     onValueChange={(v) => updateDesign(design.id, { padding: v[0] })}
-                                    max={64}
+                                    max={150}
                                     step={1}
                                     />
                                     <span className="text-sm text-muted-foreground w-8">{design.padding}</span>

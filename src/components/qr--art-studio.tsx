@@ -307,7 +307,7 @@ export default function QrArtStudio() {
     const newId = designs.length > 0 ? Math.max(...designs.map(d => d.id)) + 1 : 1;
     const newDesign: Design = {
       id: newId,
-      name: `New Design ${newId}`,
+      name: `SayWith QR Design ${newId}`,
       template: svgTemplates[0] || '',
       pixelStyle: "square",
       pixelColor: "#000000",
@@ -315,7 +315,7 @@ export default function QrArtStudio() {
       foregroundColor: "#000000",
       eyeColor: "#000000",
       eyeRadius: 8,
-      text: "Your Text Here",
+      text: "SayWith",
       useImage: false,
       pixelGradientStart: "",
       pixelGradientEnd: "",
@@ -341,7 +341,6 @@ export default function QrArtStudio() {
   };
 
 
-  const renderDesignManager = () => (
     <Card>
       <CardHeader>
         <CardTitle className="font-headline flex items-center gap-2"><Palette />Design Presets</CardTitle>
