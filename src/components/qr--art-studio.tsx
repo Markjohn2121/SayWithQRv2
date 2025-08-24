@@ -239,7 +239,7 @@ export default function QrArtStudio() {
         
         // 2. Replace text placeholder and color
         if (design.text) {
-           svgText = svgText.replace(/(<text[^>]*>)\s*TEXT\s*(<\/text>)/g, `$1${design.text}$2`);
+           svgText = svgText.replace(/(<text[^>]*>)\s*TEXT\s*(<\/text>)/gi, `$1${design.text}$2`);
            if (design.foregroundColor) {
            //  svgText = svgText.replace(/(<text[^>]*fill=")[^"]*(")/g, `$1${design.foregroundColor}$2`);
            }

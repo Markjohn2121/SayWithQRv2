@@ -577,7 +577,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
 
 
         if (qrtext || design.text) {
-           svgText = svgText.replace(/(<text[^>]*>)\s*TEXT\s*(<\/text>)/g, `$1${qrtext ? qrtext : design.text}$2`);
+           svgText = svgText.replace(/(<text[^>]*>)\s*TEXT\s*(<\/text>)/gi, `$1${qrtext ? qrtext : design.text}$2`);
            if (design.foregroundColor) {
            //  svgText = svgText.replace(/(<text[^>]*fill=")[^"]*(")/g, `$1${design.foregroundColor}$2`);
            }
