@@ -596,7 +596,7 @@ export default function QrArtStudio() {
     const newId = designs.length > 0 ? Math.max(...designs.map(d => d.id)) + 1 : 1;
     const newDesign: Design = {
       id: newId,
-      name: `New ${isImageDesign ? 'Image' : 'Basic'} Design ${newId}`,
+      name: `SayWith QR ${isImageDesign ? '-' : '-'} Design ${newId}`,
       template: svgTemplates[0] || '',
       qrCodeImageTagIndex: 1,
       pixelStyle: "square",
@@ -775,7 +775,7 @@ export default function QrArtStudio() {
                                 <Input
                                     id={`qr-index-${design.id}`}
                                     type="number"
-                                    min="1"
+                                    min=""
                                     value={design.qrCodeImageTagIndex}
                                     onChange={(e) => updateDesign(design.id, { qrCodeImageTagIndex: parseInt(e.target.value, 10) || 1 })}
                                 />
