@@ -445,23 +445,45 @@ export default function QrArtStudio() {
   };
 
 const replacePathsInTargetG = (svgContent, design) => {
-    // Match each <g> tag with a style containing fill:#5170ff
-    return svgContent.replace(/<g([^>]*)style=["'][^"']*fill:\s*#5170ff;?[^"']*["'][^>]*>[\s\S]*?<\/g>/gi, gMatch => {
-        // Remove fill:#5170ff from this <g>'s style
-        let cleanedG = gMatch.replace(/(style=["'][^"']*)fill:\s*#5170ff;?([^"']*["'])/i, (match, before, after) => {
-            let newStyle = (before + after)
-                .replace(/;;+/g, ';')
-                .replace(/^;|;$/g, '')
-                .trim();
-            return newStyle ? `${newStyle}` : '';
+    // Helper: evaluate ${...} inside design.text with access to design
+    const evaluateTemplate = (tpl, context) => {
+        return tpl.replace(/\$\{([^}]+)\}/g, (_, code) => {
+            try {
+                // Create a function with "design" in scope
+                return Function("design", `"use strict"; return (${code})`)(context);
+            } catch (e) {
+                console.error("Eval error in design.text:", code, e);
+                return "";
+            }
         });
+    };
 
-        // Replace all <path> tags inside this <g> with design.text
-        cleanedG = cleanedG.replace(/<path[^>]*>/gi, design.text);
+    // Evaluate design.text (so ${1+1}, ${design.name}, ternary ops, etc.)
+    let evaluatedText = evaluateTemplate(design.text, design);
 
-        return cleanedG;
-    });
-}
+    // Match each <g> tag with a style containing fill:#5170ff
+    return svgContent.replace(
+        /<g([^>]*)style=["'][^"']*fill:\s*#5170ff;?[^"']*["'][^>]*>[\s\S]*?<\/g>/gi,
+        gMatch => {
+            // Remove fill:#5170ff from this <g>'s style
+            let cleanedG = gMatch.replace(
+                /(style=["'][^"']*)fill:\s*#5170ff;?([^"']*["'])/i,
+                (match, before, after) => {
+                    let newStyle = (before + after)
+                        .replace(/;;+/g, ';')
+                        .replace(/^;|;$/g, '')
+                        .trim();
+                    return newStyle ? `${newStyle}` : '';
+                }
+            );
+
+            // Replace all <path> tags inside this <g> with evaluated design.text
+            cleanedG = cleanedG.replace(/<path[^>]*>/gi, evaluatedText);
+
+            return cleanedG;
+        }
+    );
+};
 
     
     
