@@ -444,6 +444,27 @@ export default function QrArtStudio() {
     }
   };
 
+const replacePathsInTargetG = (svgContent, design) => {
+    // Match each <g> tag with a style containing fill:#5170ff
+    return svgContent.replace(/<g([^>]*)style=["'][^"']*fill:\s*#5170ff;?[^"']*["'][^>]*>[\s\S]*?<\/g>/gi, gMatch => {
+        // Remove fill:#5170ff from this <g>'s style
+        let cleanedG = gMatch.replace(/(style=["'][^"']*)fill:\s*#5170ff;?([^"']*["'])/i, (match, before, after) => {
+            let newStyle = (before + after)
+                .replace(/;;+/g, ';')
+                .replace(/^;|;$/g, '')
+                .trim();
+            return newStyle ? `${newStyle}` : '';
+        });
+
+        // Replace all <path> tags inside this <g> with design.text
+        cleanedG = cleanedG.replace(/<path[^>]*>/gi, design.text);
+
+        return cleanedG;
+    });
+}
+
+    
+    
 
   const handleGenerate = async () => {
     if (!content) {
@@ -494,9 +515,11 @@ export default function QrArtStudio() {
 
 
         if (design.text) {
-           svgText = svgText.replace(/(<text[^>]*>)\s*TEXT\s*(<\/text>)/g, `$1${design.text}$2`);
+          
+           svgText = replacePathsInTargetG(svgText,design); 
+            //svgText = svgText.replace(/(<text[^>]*>)\s*TEXT\s*(<\/text>)/g, `$1${design.text}$2`);
            if (design.foregroundColor) {
-             svgText = svgText.replace(/(<text[^>]*fill=")[^"]*(")/g, `$1${design.foregroundColor}$2`);
+            // svgText = svgText.replace(/(<text[^>]*fill=")[^"]*(")/g, `$1${design.foregroundColor}$2`);
            }
         }
 
