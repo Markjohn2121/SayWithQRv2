@@ -608,7 +608,7 @@ export default function QrArtStudio() {
       eyeRadius: 8,
       padding: 16,
       canvasShape: 'square',
-      text: "@SayWith",
+      text: "<text>@SayWith</text>",
       useImage: isImageDesign,
       imageFilter: 'none',
       imageBlur: 0,
