@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "SayWith QR - Design 1",
-    "template": "/templates/1_20250824_173430_0000.svg",
+    "template": "/templates/1_20250826_163402_0000.svg",
     "qrCodeImageTagIndex": 2,
     "pixelStyle": "square",
     "pixelColor": "#000000",
@@ -28,7 +28,7 @@
   {
     "id": 2,
     "name": "SayWith QR - Design 2",
-    "template": "/templates/2_20250824_173430_0001.svg",
+    "template": "/templates/2_20250826_163402_0001.svg",
     "qrCodeImageTagIndex": 5,
     "pixelStyle": "square",
     "pixelColor": "#000000",
@@ -132,7 +132,7 @@
   {
     "id": 6,
     "name": "SayWith QR - Design 6",
-    "template": "/templates/6_20250824_173432_0005.svg",
+    "template": "/templates/6_20250826_163402_0002.svg",
     "qrCodeImageTagIndex": 3,
     "pixelStyle": "square",
     "pixelColor": "#000000",
@@ -158,7 +158,7 @@
   {
     "id": 7,
     "name": "SayWith QR - Design 7",
-    "template": "/templates/7_20250824_173432_0006.svg",
+    "template": "/templates/7_20250826_163402_0003.svg",
     "qrCodeImageTagIndex": 1,
     "pixelStyle": "square",
     "pixelColor": "#000000",
@@ -262,7 +262,7 @@
   {
     "id": 11,
     "name": "SayWith QR - Design 11",
-    "template": "/templates/11_20250824_173433_0010.svg",
+    "template": "/templates/11_20250826_163402_0004.svg",
     "qrCodeImageTagIndex": 2,
     "pixelStyle": "square",
     "pixelColor": "#000000",
@@ -288,7 +288,7 @@
   {
     "id": 12,
     "name": "SayWith QR - Design 12",
-    "template": "/templates/12_20250824_173433_0011.svg",
+    "template": "/templates/12_20250826_163402_0005.svg",
     "qrCodeImageTagIndex": 2,
     "pixelStyle": "square",
     "pixelColor": "#000000",
