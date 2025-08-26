@@ -271,7 +271,7 @@
     "eyeShape": "frame",
     "eyeStyle": "square",
     "eyeRadius": 8,
-    "padding": 16,
+    "padding": 6,
     "canvasShape": "square",
     "text": "<text \n      style=\"font-size:32px;\n             font-weight:bold;\n             font-style:italic;\n             font-family:Arial;\n             fill:#5170ff;\">\n  ${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n</text>",
     "useImage": false,
