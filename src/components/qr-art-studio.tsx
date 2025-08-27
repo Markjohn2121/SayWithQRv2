@@ -461,11 +461,11 @@ const replacePathsInTargetG = (svgContent, design) => {
     // Evaluate design.text (so ${1+1}, ${design.name}, ternary ops, etc.)
     let evaluatedText = evaluateTemplate(design.text, design);
 
-    // Match each <g> tag with a style containing fill:#012101
+    // Match each <g> tag with a style containing fill:#5170ff
     return svgContent.replace(
         /<g([^>]*)style=["'][^"']*fill:\s*#012101;?[^"']*["'][^>]*>[\s\S]*?<\/g>/gi,
         gMatch => {
-            // Remove fill:#012101 from this <g>'s style
+            // Remove fill:#5170ff from this <g>'s style
             let cleanedG = gMatch.replace(
                 /(style=["'][^"']*)fill:\s*#012101;?([^"']*["'])/i,
                 (match, before, after) => {
