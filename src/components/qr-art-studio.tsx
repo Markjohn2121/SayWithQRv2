@@ -444,6 +444,7 @@ export default function QrArtStudio() {
     }
   };
 
+//function to replacing that text 
 const replacePathsInTargetG = (svgContent, design) => {
     // Helper: evaluate ${...} inside design.text with access to design
     const evaluateTemplate = (tpl, context) => {
@@ -461,21 +462,15 @@ const replacePathsInTargetG = (svgContent, design) => {
     // Evaluate design.text (so ${1+1}, ${design.name}, ternary ops, etc.)
     let evaluatedText = evaluateTemplate(design.text, design);
 
-    // Match each <g> tag with a style containing fill:#5170ff
+    // Match <g> tags that contain either fill="#012101" or style="fill:#012101"
     return svgContent.replace(
-        /<g([^>]*)style=["'][^"']*fill:\s*#012101;?[^"']*["'][^>]*>[\s\S]*?<\/g>/gi,
+        /<g([^>]*)((?:\sfill=["']#012101["'])|(?:\sstyle=["']\s*fill:\s*#012101\s*["']))[^>]*>[\s\S]*?<\/g>/gi,
         gMatch => {
-            // Remove fill:#5170ff from this <g>'s style
-            let cleanedG = gMatch.replace(
-                /(style=["'][^"']*)fill:\s*#012101;?([^"']*["'])/i,
-                (match, before, after) => {
-                    let newStyle = (before + after)
-                        .replace(/;;+/g, ';')
-                        .replace(/^;|;$/g, '')
-                        .trim();
-                    return newStyle ? `${newStyle}` : '';
-                }
-            );
+            // Remove only fill="#012101"
+            let cleanedG = gMatch.replace(/\s*fill=["']#012101["']/gi, "");
+
+            // Remove only style="fill:#012101"
+            cleanedG = cleanedG.replace(/\s*style=["']\s*fill:\s*#012101\s*["']/gi, "");
 
             // Replace all <path> tags inside this <g> with evaluated design.text
             cleanedG = cleanedG.replace(/<path[^>]*>/gi, evaluatedText);
@@ -484,8 +479,6 @@ const replacePathsInTargetG = (svgContent, design) => {
         }
     );
 };
-
-    
     
 
   const handleGenerate = async () => {
