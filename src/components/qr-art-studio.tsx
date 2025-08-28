@@ -646,7 +646,7 @@ const replacePathsInTargetG = (svgContent, design) => {
       eyeRadius: 8,
       padding: 16,
       canvasShape: 'square',
-      text:'<text style="     font-size:32px;         font-weight:bold;   font-style:normal;   font-family:Arial;  fill:{design.foregroundColor};"> ${typeof qrText !== "undefined" ? (qrText ?? "@SayWith") : "@SayWith"}        </text>',
+      text:'<text style="\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};">\n\n${typeof qrText !== "undefined" ? (qrText ?? "@SayWith") : "@SayWith"}\n        </text>',
       useImage: isImageDesign,
       imageFilter: 'none',
       imageBlur: 0,
