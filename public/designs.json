@@ -336,5 +336,31 @@
     "pixelGradientEnd": "",
     "bgGradientStart": "",
     "bgGradientEnd": ""
+  },
+  {
+    "id": 14,
+    "name": "SayWith QR - Design 14",
+    "template": "/templates/4_20250824_173431_0003.svg",
+    "qrCodeImageTagIndex": 4,
+    "pixelStyle": "circle",
+    "pixelColor": "#000000",
+    "backgroundColor": "#FFFFFF",
+    "foregroundColor": "#000000",
+    "eyeShape": "frame",
+    "eyeStyle": "square",
+    "eyeRadius": 13,
+    "padding": 99,
+    "canvasShape": "square",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "useImage": true,
+    "imageFilter": "none",
+    "imageBlur": 5,
+    "imageOverlayColor": "#FFFFFF",
+    "imageOverlayOpacity": 0.15,
+    "transparentBg": false,
+    "pixelGradientStart": "",
+    "pixelGradientEnd": "",
+    "bgGradientStart": "",
+    "bgGradientEnd": ""
   }
 ]
