@@ -293,7 +293,7 @@
     "pixelStyle": "rounded",
     "pixelColor": "#ffffff",
     "backgroundColor": "#000000",
-    "foregroundColor": "#000000",
+    "foregroundColor": "#ffffff",
     "eyeShape": "frame",
     "eyeStyle": "square",
     "eyeRadius": 17,
