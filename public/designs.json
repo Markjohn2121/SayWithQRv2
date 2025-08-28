@@ -322,7 +322,7 @@
     "foregroundColor": "#000000",
     "eyeShape": "frame",
     "eyeStyle": "square",
-    "eyeRadius": 11,
+    "eyeRadius": 19,
     "padding": 82,
     "canvasShape": "square",
     "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
