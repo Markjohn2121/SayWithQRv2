@@ -132,7 +132,7 @@
   {
     "id": 6,
     "name": "SayWith QR - Design 6",
-    "template": "/templates/6_20250826_163402_0002.svg",
+    "template": "/templates/6_20250828_101502_0000.svg",
     "qrCodeImageTagIndex": 3,
     "pixelStyle": "square",
     "pixelColor": "#000000",
@@ -158,7 +158,7 @@
   {
     "id": 7,
     "name": "SayWith QR - Design 7",
-    "template": "/templates/7_20250826_163402_0003.svg",
+    "template": "/templates/7_20250828_101502_0001.svg",
     "qrCodeImageTagIndex": 1,
     "pixelStyle": "square",
     "pixelColor": "#000000",
