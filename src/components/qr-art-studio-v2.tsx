@@ -382,8 +382,8 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                 const errorMessage = error.message || 'An unknown error occurred.';
                 toast({
                     variant: "success",
-                    title: "Image Load Error",
-                    description: `Could not load the image from the provided URL. ${errorMessage}`,
+                    title: "No Image Load",
+                    description: `No image available from the provided URL. (Using Default Image)`,
                 });
             } finally {
                 setIsFirebaseImageLoading(false);
