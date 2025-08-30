@@ -13,7 +13,7 @@
     "eyeRadius": 18,
     "padding": 70,
     "canvasShape": "square",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -23,7 +23,8 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 2,
@@ -36,10 +37,10 @@
     "foregroundColor": "#ffffff",
     "eyeShape": "frame",
     "eyeStyle": "square",
-    "eyeRadius": 10,
+    "eyeRadius": 0,
     "padding": 13,
     "canvasShape": "square",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -49,7 +50,8 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "#00ffff",
-    "bgGradientEnd": "#ffffff"
+    "bgGradientEnd": "#ffffff",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 3,
@@ -65,7 +67,7 @@
     "eyeRadius": 8,
     "padding": 16,
     "canvasShape": "square",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -75,7 +77,8 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 4,
@@ -91,7 +94,7 @@
     "eyeRadius": 13,
     "padding": 16,
     "canvasShape": "square",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -101,7 +104,8 @@
     "pixelGradientStart": "#0000ff",
     "pixelGradientEnd": "#000000",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 5,
@@ -117,7 +121,7 @@
     "eyeRadius": 8,
     "padding": 16,
     "canvasShape": "square",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -127,7 +131,8 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 6,
@@ -143,7 +148,7 @@
     "eyeRadius": 24,
     "padding": 9,
     "canvasShape": "square",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -153,7 +158,8 @@
     "pixelGradientStart": "#0000ff",
     "pixelGradientEnd": "#ff0000",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 7,
@@ -169,7 +175,7 @@
     "eyeRadius": 14,
     "padding": 9,
     "canvasShape": "square",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -179,7 +185,8 @@
     "pixelGradientStart": "#0000ff",
     "pixelGradientEnd": "#ff0000",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 8,
@@ -195,7 +202,7 @@
     "eyeRadius": 8,
     "padding": 16,
     "canvasShape": "square",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -205,7 +212,8 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 9,
@@ -221,7 +229,7 @@
     "eyeRadius": 0,
     "padding": 16,
     "canvasShape": "square",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -231,7 +239,8 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 10,
@@ -247,7 +256,7 @@
     "eyeRadius": 6,
     "padding": 16,
     "canvasShape": "square",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -257,7 +266,8 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 11,
@@ -273,7 +283,7 @@
     "eyeRadius": 6,
     "padding": 84,
     "canvasShape": "circle",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -283,7 +293,8 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 12,
@@ -299,7 +310,7 @@
     "eyeRadius": 17,
     "padding": 10,
     "canvasShape": "square",
-    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof qrText !== \"undefined\" ? (qrText ?? \"@SayWith\") : \"@SayWith\"}\n        </text>",
+    "text": "<text style=\"\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};\">\n\n${typeof design.qrtext !== \"undefined\" ? (design.qrtext ?? \"\") : \"@SayWith\"}\n        </text>",
     "useImage": false,
     "imageFilter": "none",
     "imageBlur": 0,
@@ -309,7 +320,8 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 13,
@@ -335,7 +347,8 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 14,
@@ -361,7 +374,8 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   },
   {
     "id": 15,
@@ -387,6 +401,7 @@
     "pixelGradientStart": "",
     "pixelGradientEnd": "",
     "bgGradientStart": "",
-    "bgGradientEnd": ""
+    "bgGradientEnd": "",
+    "qrtext": "Mrkvldz"
   }
 ]
