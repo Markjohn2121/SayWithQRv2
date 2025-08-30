@@ -529,7 +529,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
   
   const replacePathsInTargetG = (svgContent, design) => {
     // Helper: evaluate ${...} inside design.text with access to design
-   design.qrtext = "rrr";
+   design.qrtext = qrText;
     const evaluateTemplate = (tpl, context) => {
         return tpl.replace(/\$\{([^}]+)\}/g, (_, code) => {
             try {
@@ -703,7 +703,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
       }
 
       const zipBlob = await zip.generateAsync({ type: 'blob' });
-      saveAs(zipBlob, 'qr-art-studio-designs.zip');
+      saveAs(zipBlob, qrText+'-SayWithQR-designs.zip');
       toast({ variant: "success", title: "Download Ready!", description: "Your zip file has been downloaded." });
 
     } catch (error: any) {
