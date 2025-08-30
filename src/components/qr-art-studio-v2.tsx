@@ -526,6 +526,43 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
       setIsUploading(false);
     }
   };
+  
+  const replacePathsInTargetG = (svgContent, design) => {
+    // Helper: evaluate ${...} inside design.text with access to design
+    const evaluateTemplate = (tpl, context) => {
+        return tpl.replace(/\$\{([^}]+)\}/g, (_, code) => {
+            try {
+                // Create a function with "design" in scope
+                return Function("design", `"use strict"; return (${code})`)(context);
+            } catch (e) {
+                console.error("Eval error in design.text:", code, e);
+                return "";
+            }
+        });
+    };
+
+    // Evaluate design.text (so ${1+1}, ${design.name}, ternary ops, etc.)
+    let evaluatedText = evaluateTemplate(design.text, design);
+
+    // Match <g> tags that contain either fill="#012101" or style="fill:#012101"
+    return svgContent.replace(
+        /<g([^>]*)((?:\sfill=["']#012101["'])|(?:\sstyle=["']\s*fill:\s*#012101\s*["']))[^>]*>[\s\S]*?<\/g>/gi,
+        gMatch => {
+            // Remove only fill="#012101"
+            let cleanedG = gMatch.replace(/\s*fill=["']#012101["']/gi, "");
+
+            // Remove only style="fill:#012101"
+            cleanedG = cleanedG.replace(/\s*style=["']\s*fill:\s*#012101\s*["']/gi, "");
+
+            // Replace all <path> tags inside this <g> with evaluated design.text
+            cleanedG = cleanedG.replace(/<path[^>]*>/gi, evaluatedText);
+
+            return cleanedG;
+        }
+    );
+};
+  
+  
 
 
   const handleGenerate = async () => {
@@ -576,8 +613,8 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
         }
 
 
-        if (qrtext || design.text) {
-           svgText = svgText.replace(/(<text[^>]*>)\s*TEXT\s*(<\/text>)/gi, `$1${qrtext ? qrtext : design.text}$2`);
+        if (design.text) {
+           svgText = replacePathsInTargetG(svgText,design);
            if (design.foregroundColor) {
            //  svgText = svgText.replace(/(<text[^>]*fill=")[^"]*(")/g, `$1${design.foregroundColor}$2`);
            }
