@@ -334,7 +334,7 @@ const DesignPreview = ({ design, backgroundImage }: { design: Design, background
 export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string }) {
   const [content, setContent] = useState('https://firebase.google.com/');
   
-  const [qrText, setqrText] = useState(null);
+  const [qrText, setqrText] = useState("");
   const [designs, setDesigns] = useState<Design[]>([]);
   const [svgTemplates, setSvgTemplates] = useState<string[]>([]);
   const [generatedQrs, setGeneratedQrs] = useState<GeneratedQr[]>([]);
@@ -529,7 +529,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
   
   const replacePathsInTargetG = (svgContent, design) => {
     // Helper: evaluate ${...} inside design.text with access to design
-   let qrText = "sam";
+   design.qrtext = "rrr";
     const evaluateTemplate = (tpl, context) => {
         return tpl.replace(/\$\{([^}]+)\}/g, (_, code) => {
             try {
