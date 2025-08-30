@@ -529,7 +529,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
   
   const replacePathsInTargetG = (svgContent, design) => {
     // Helper: evaluate ${...} inside design.text with access to design
-   let qrTexr = "sam";
+   let qrText = "sam";
     const evaluateTemplate = (tpl, context) => {
         return tpl.replace(/\$\{([^}]+)\}/g, (_, code) => {
             try {
