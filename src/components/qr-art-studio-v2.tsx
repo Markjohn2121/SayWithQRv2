@@ -381,7 +381,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
                 console.error("Error converting image to Base64:", error);
                 const errorMessage = error.message || 'An unknown error occurred.';
                 toast({
-                    variant: "destructive",
+                    variant: "success",
                     title: "Image Load Error",
                     description: `Could not load the image from the provided URL. ${errorMessage}`,
                 });
