@@ -729,7 +729,7 @@ export default function QrArtStudioV2({ qrId, id }: { qrId?: string, id?: string
       eyeRadius: 8,
       padding: 16,
       canvasShape: 'square',
-      text: "Your Text Here",
+      text:'<text style="\nfont-size:32px;\nfont-weight:bold;\nfont-style:normal;\nfont-family:Arial;\nfill:${design.foregroundColor};">\n\n${typeof design.qrtext !== "undefined" ? (design.qrtext ?? "@SayWith") : "@SayWith"}\n        </text>',
       useImage: isImageDesign,
       imageFilter: 'none',
       imageBlur: 0,
